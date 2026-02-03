@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %} Home {% endblock title %}
+{% block title %} Blogpost {% endblock title %}
+{% block blogactive %} active {% endblock blogactive%}
 
 {% block body %} 
-contact
+<div class="container my-3">
+    <h2 class="blog-post-title">{{post.title}}</h2>
+    <p class="blog-post-meta">{{post.timestamp}} by <a href"/about"> {{post.author}} </a> </p>
+    <p> {{post.content}} </p>
+    <hr>
+</div>
 {% endblock body %}

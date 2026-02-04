@@ -9,3 +9,4 @@ def blogHome(request):
 def blogPost(request, slug):
     post = get_object_or_404(Post, slug=slug)
     return render(request, "blog/blogPost.html", {'post': post})
+

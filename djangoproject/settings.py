@@ -79,7 +79,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Automatically append slash to URLs if missing
-APPEND_SLASH = True  # <-- Corrected from string to boolean
+APPEND_SLASH = True
+APPEND_SLASH = False
+
 
 # Message tags for Bootstrap styling
 MESSAGE_TAGS = {

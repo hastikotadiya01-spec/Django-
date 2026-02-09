@@ -82,6 +82,10 @@ STATIC_URL = 'static/'
 APPEND_SLASH = True
 APPEND_SLASH = False
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
+
 
 # Message tags for Bootstrap styling
 MESSAGE_TAGS = {

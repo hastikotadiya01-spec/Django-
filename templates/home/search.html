@@ -1,23 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %} Search Results {% endblock title %}
-{% block blogactive %} active {% endblock blogactive %}
+{% block title %}Search Results{% endblock title %}
+{% block blogactive %}active{% endblock blogactive %}
 
 {% block body %}
 
 <div class="container my-3">
-    <h2> Search results : </h2>
+    <h2>Search results</h2>
 
-    {% if not allPosts %}
+    {% if allPosts|length == 0 %}
         <p>No search results</p>
-        Your search <b>{{ query }}</b> did not match any documentation. <br>
-        Suggestions:
+        <p>
+            Your search <b>{{ query }}</b> did not match any documents.
+        </p>
         <ul>
-        <li>Make sure that all words are spelled correctly</li>
-        <li>Try different keywords.</li>
-        <li>Try more general keywords</li>
+            <li>Make sure that all words are spelled correctly</li>
+            <li>Try different keywords</li>
+            <li>Try more general keywords</li>
         </ul>
-    {% endif %}
+    {% else %}
 
     <div class="row">
         {% for post in allPosts %}
@@ -27,13 +28,21 @@
                     <strong class="d-inline-block mb-2 text-primary">
                         Article by {{ post.author }}
                     </strong>
+
                     <h3 class="card-title mb-0">
-                        <a class="text-dark">{{ post.title }}</a>
+                        <a href="{% url 'blogPost' post.slug %}" class="text-dark">
+                            {{ post.title }}
+                        </a>
                     </h3>
-                    <div class="mb-1 text-muted">{{ post.timestamp }}</div>
+
+                    <div class="mb-1 text-muted">
+                        {{ post.timestamp|date:"M d, Y" }}
+                    </div>
+
                     <p class="card-text mb-auto">
                         {{ post.content|truncatewords:40 }}
                     </p>
+
                     <a href="{% url 'blogPost' post.slug %}" class="btn btn-primary mt-2">
                         Continue reading
                     </a>
@@ -42,6 +51,8 @@
         </div>
         {% endfor %}
     </div>
+
+    {% endif %}
 </div>
 
 {% endblock body %}

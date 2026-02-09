@@ -96,3 +96,4 @@ def handleLogout(request):
     logout(request)
     messages.success(request,"Successfully Logged out")
     return redirect('home') 
+

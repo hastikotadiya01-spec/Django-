@@ -7,10 +7,9 @@
 {% block body %} 
 <div class="container my-3">
     <h1>Contact iCoder Admin</h1>
-
+    
     <form method="POST" action="{% url 'contact' %}">
         {% csrf_token %}
-
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp">

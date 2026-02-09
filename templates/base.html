@@ -19,7 +19,6 @@
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item {% block homeactive %} {% endblock homeactive %}">
@@ -36,7 +35,7 @@
           </li>
         </ul>
         <div class="m1-auto form-inline">
-        <form method="get" action="/search" class="my-2 my-lg-0 mx-3">
+        <form method="get" action="/search/" class="my-2 my-lg-0 mx-3">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
           <button class="btn btn-outline-success m-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -55,11 +54,41 @@
         {% else %}
           <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#loginmodal">Login</button>
           <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#signupmodel">Signup</button>
-          <a href="admin/" role="button" target="_blank" class="btn btn-success mr-2 my-sm-0">Admin panel</a>
-
         {% endif %}
       </div>
     </nav>
+
+    <!-- Change Password Modal -->
+{% if user.is_authenticated %}
+<div class="modal fade" id="changepasswordmodal" tabindex="-1" role="dialog" aria-labelledby="changepasswordmodal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changepasswordmodaltitle">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/change_password/" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="new_password1">New Password</label>
+            <input type="password" class="form-control" id="new_password1" name="new_password1" placeholder="Enter new password" required>
+          </div>
+          <div class="form-group">
+            <label for="new_password2">Confirm New Password</label>
+            <input type="password" class="form-control" id="new_password2" name="new_password2" placeholder="Confirm new password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Change Password</button>
+        </form>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 
     <!-- Messages -->
     {% if messages %}
@@ -159,3 +188,5 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
 </html>
+
+

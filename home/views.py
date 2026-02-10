@@ -32,7 +32,7 @@ def contact(request):
     return render(request, 'home/contact.html')
 
 def search(request):
-    query = request.GET.get('query',' ').strip()
+    query = request.GET.get('query',' ')
     if len(query)>78:   
         allPosts = Post.objects.none()
     else:

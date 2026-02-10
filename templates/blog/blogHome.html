@@ -13,7 +13,7 @@
         <div class="col-12 mb-4">
             <div class="card h-100">
                 <div class="card-body">
-                    <strong class="d-inline-block mb-2 text-primary">Article by {{post.author}}</strong>
+                    <strong class="d-inline-block mb-2 text-primary">Article by {{post.author}}</strong>  
                     <h3 class="card-title mb-0">
                         <a class="text-dark">{{ post.title }}</a>
                     </h3>
@@ -21,10 +21,9 @@
                     <p class="card-text mb-auto">{{ post.content|truncatewords:"40" }}</p>
                     <a href="{% url 'blogPost' post.slug %}" class="btn btn-primary mt-2">Continue reading</a>
                 </div>
-            </div>
+            </div> 
         </div>
         {% endfor %}
     </div>
-</div>
-
+</div>  
 {% endblock body %}

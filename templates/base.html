@@ -39,7 +39,6 @@
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
           <button class="btn btn-outline-success m-2 my-sm-0" type="submit">Search</button>
         </form>
-        
          {% if user.is_authenticated %}
           <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
@@ -68,27 +67,26 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+      </div>  
+      <div class="modal-body">    
         <form action="/change_password/" method="post">
           {% csrf_token %}    
           <div class="form-group">
             <label for="new_password1">New Password</label>
             <input type="password" class="form-control" id="new_password1" name="new_password1" placeholder="Enter new password" required>
-          </div>
+          </div> 
           <div class="form-group">
             <label for="new_password2">Confirm New Password</label>
             <input type="password" class="form-control" id="new_password2" name="new_password2" placeholder="Confirm new password" required>
-          </div>
+          </div>  
           <button type="submit" class="btn btn-primary">Change Password</button>
-        </form>
+        </form>  
       </div>
       <div class="modal-footer"></div>
     </div>
   </div>
 </div>
 {% endif %}
-
 
     <!-- Messages -->
     {% if messages %}
@@ -101,6 +99,8 @@
         </div>
       {% endfor %}
     {% endif %}
+
+    
 
     <!-- Signup Modal -->
     <div class="modal fade" id="signupmodel" tabindex="-1" role="dialog" aria-labelledby="signupmodel" aria-hidden="true">

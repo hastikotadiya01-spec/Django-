@@ -10,4 +10,23 @@
     <p> {{post.content}} </p>
     <hr>
 </div>
-{% endblock body %}
+<div class="container">
+    <h2> Comments </h2>
+    <form action="/blog/blogpost/{{post.slug}}/" method="post">   
+    {% csrf_token %} 
+    <div class="mb-3">
+        <label for="comment" class="form-label">Post Comment</label>
+        <input type="text" id="comment" name="comment" class="form-control" placeholder="Enter comment here" >
+    </div>
+    <input type="hidden" name="postSno" value="{{post.sno}}">
+    <button type="submit" class="btn btn-primary" > Submit </button>
+    </form> 
+    {% for comment in comments %}
+    <div class="row my-3">
+        <div class="col-md-2 bg-success"> Image here </div>
+        <div class="col-md-10 bg-primary"> <b> {{comment.user.username}} </b> {{comment.comment}} </div> 
+    </div> 
+    {% endfor %}
+
+</div>
+{% endblock body %}     

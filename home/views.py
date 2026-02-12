@@ -32,12 +32,12 @@ def contact(request):
     return render(request, 'home/contact.html')
 
 def search(request):
-    query = request.GET.get('query',' ')
-    if len(query)>78:   
+    query = request.GET.get('query',' ') 
+    if len(query)>78: 
         allPosts = Post.objects.none()
     else:
         allPostsTitle = Post.objects.filter(title__icontains=query)
-        allPostsContent = Post.objects.filter(content__icontains=query)
+        allPostsContent = Post.objects.filter(content__icontains=query) 
         allPosts = allPostsTitle.union(allPostsContent)
     if allPosts.count() == 0:
         messages.error(request,"No search result found . Please refine your query")
@@ -71,7 +71,7 @@ def handleSignup(request):
         myuser.save()
         messages.success(request,"your account has been successfully created")
         return redirect('home')
-   
+    
     else:
         return HttpResponse('handleSignup') 
     
@@ -96,4 +96,3 @@ def handleLogout(request):
     logout(request)
     messages.success(request,"Successfully Logged out")
     return redirect('home') 
-

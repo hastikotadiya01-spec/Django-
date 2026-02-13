@@ -6,27 +6,34 @@
 {% block body %} 
 <div class="container my-3">
     <h2 class="blog-post-title">{{post.title}}</h2>
-    <p class="blog-post-meta">{{post.timestamp}} by <a href="/about"> {{post.author}} </a> </p>
+    <p class="blog-post-meta">{{post.timestamp}} by <a href="/about">{{post.author}}</a> </p>
     <p> {{post.content}} </p>
     <hr>
 </div>
 <div class="container">
-    <h2> Comments </h2>
-    <form action="/blog/blogpost/{{post.slug}}/" method="post">   
+    <h2> Comments </h2> 
+    <form action="/blog/postComment/" method="post"> 
     {% csrf_token %} 
     <div class="mb-3">
         <label for="comment" class="form-label">Post Comment</label>
-        <input type="text" id="comment" name="comment" class="form-control" placeholder="Enter comment here" >
+        <textarea id="comment" name="comment" class="form-control" placeholder="Enter comment here"></textarea>
     </div>
+
     <input type="hidden" name="postSno" value="{{post.sno}}">
-    <button type="submit" class="btn btn-primary" > Submit </button>
+    <button type="submit" class="btn btn-primary">Submit</button>
     </form> 
     {% for comment in comments %}
-    <div class="row my-3">
-        <div class="col-md-2 bg-success"> Image here </div>
-        <div class="col-md-10 bg-primary"> <b> {{comment.user.username}} </b> {{comment.comment}} </div> 
-    </div> 
-    {% endfor %}
-
+<div class="row my-3">
+    <div class="col-auto"> 
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR0HQMR6IuplEwXwPw3EO-9j2xMsSeTbdoMQk4lpXDJLvJjs3NVR2bGz4&s" 
+             alt="user" 
+             style="width:47px; height:47px; border-radius:50%; object-fit:cover;">
+    </div>
+    <div class="col bg-light p-2 rounded">
+        <b>{{ comment.user.username }}</b> at {{ comment.timestamp|date:'M d, Y H:i' }}
+        <div>{{ comment.comment }}</div>
+    </div>
+</div>
+{% endfor %}
 </div>
 {% endblock body %}     

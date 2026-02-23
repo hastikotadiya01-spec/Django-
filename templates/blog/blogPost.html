@@ -16,9 +16,8 @@
     {% csrf_token %} 
     <div class="mb-3">
         <label for="comment" class="form-label">Post Comment</label>
-        <textarea id="comment" name="comment" class="form-control" placeholder="Enter comment here"></textarea>
+        <textarea id="comment" name="comment" class="form-control" placeholder="Enter comment here" required></textarea> 
     </div>
-
     <input type="hidden" name="postSno" value="{{post.sno}}">
     <button type="submit" class="btn btn-primary">Submit</button>
     </form> 
@@ -33,7 +32,9 @@
         <b>{{ comment.user.username }}</b> at {{ comment.timestamp|date:'M d, Y H:i' }}
         <div>{{ comment.comment }}</div>
     </div>
-</div>
+</div>      
 {% endfor %}
 </div>
 {% endblock body %}     
+
+<div class="container my-3" name="text" id="text" 

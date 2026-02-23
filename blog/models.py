@@ -25,3 +25,4 @@ class BlogComment(models.Model):
     
     def __str__(self):
         return  self.comment[0:13] + "..." + "by" + self.user.username 
+

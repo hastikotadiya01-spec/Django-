@@ -9,25 +9,27 @@
     <p class="blog-post-meta">{{post.timestamp}} by <a href="/about">{{post.author}}</a> </p>
     <p> {{post.content}} </p>
     <hr>
-</div>
-<div class="container">
-    <h2> Comments </h2> 
+</div>                                                                        
+<div class="container"> 
+    <h2> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxqLzSe2ynPAygYm8OPXtzb1qpCx9gVgN-rg&s" alt="comment" style="width:47px ; height:47px;">  
+        Comments </h2> 
     <form action="/blog/postComment/" method="post"> 
     {% csrf_token %} 
-    <div class="mb-3">
+    <div class="mb-3"> 
         <label for="comment" class="form-label">Post Comment</label>
         <textarea id="comment" name="comment" class="form-control" placeholder="Enter comment here" required></textarea> 
-    </div>
+    </div> 
     <input type="hidden" name="postSno" value="{{post.sno}}">
     <button type="submit" class="btn btn-primary">Submit</button>
-    </form> 
-    {% for comment in comments %}
-<div class="row my-3">
-    <div class="col-auto"> 
+    <h4><u> comments : {{comments|length}} </u> </h4>
+    </form>   
+    {% for comment in comments %} 
+<div class="row my-3"> 
+    <div class="col-auto">  
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR0HQMR6IuplEwXwPw3EO-9j2xMsSeTbdoMQk4lpXDJLvJjs3NVR2bGz4&s" 
              alt="user" 
              style="width:47px; height:47px; border-radius:50%; object-fit:cover;">
-    </div>
+    </div> 
     <div class="col bg-light p-2 rounded">
         <b>{{ comment.user.username }}</b> at {{ comment.timestamp|date:'M d, Y H:i' }}
         <div>{{ comment.comment }}</div>
@@ -36,5 +38,3 @@
 {% endfor %}
 </div>
 {% endblock body %}     
-
-<div class="container my-3" name="text" id="text" 

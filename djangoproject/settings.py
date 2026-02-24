@@ -86,7 +86,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 
-
 # Message tags for Bootstrap styling
 MESSAGE_TAGS = {
     messages.DEBUG: 'secondary',
@@ -97,4 +96,5 @@ MESSAGE_TAGS = {
 }
 
 TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/8/tinymce.min.js'
-TINYMCE_COMPRESSOR = False
+TINYMCE_COMPRESSOR = False 
+

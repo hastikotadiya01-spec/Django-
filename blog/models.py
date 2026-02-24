@@ -17,7 +17,7 @@ class Post(models.Model):
 
 class BlogComment(models.Model):
     sno = models.AutoField(primary_key=True)
-    comment = models.TextField()
+    comment = models.TextField() 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True) 
@@ -25,4 +25,3 @@ class BlogComment(models.Model):
     
     def __str__(self):
         return  self.comment[0:13] + "..." + "by" + self.user.username 
-

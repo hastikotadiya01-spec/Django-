@@ -28,13 +28,13 @@
     <div class="col-auto">  
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR0HQMR6IuplEwXwPw3EO-9j2xMsSeTbdoMQk4lpXDJLvJjs3NVR2bGz4&s" 
              alt="user" 
-             style="width:47px; height:47px; border-radius:50%; object-fit:cover;">
+             style="width:47px; height:47px; border-radius:50% ; width:90pxobject-fit:cover;">
     </div> 
     <div class="col bg-light p-2 rounded">
         <b>{{ comment.user.username }}</b> at {{ comment.timestamp|date:'M d, Y H:i' }}
         <div>{{ comment.comment }}</div>
     </div>
-</div>      
+</div>
 {% endfor %}
 </div>
 {% endblock body %}     

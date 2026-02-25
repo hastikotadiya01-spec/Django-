@@ -13,7 +13,6 @@ def about(request):
     messages.success(request,"this is about")   
     return render(request,'home/about.html')    
 
-    
 def contact(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -72,6 +71,7 @@ def handleSignup(request):
         myuser.save()
         messages.success(request,"your account has been successfully created")
         return redirect('home')
+    
     else:
         return HttpResponse('handleSignup') 
     

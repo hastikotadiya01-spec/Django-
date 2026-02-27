@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'home.apps.HomeConfig',
+    'tinymce'
 ]
 
 MIDDLEWARE = [
@@ -94,7 +95,4 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
-
-TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/8/tinymce.min.js'
-TINYMCE_COMPRESSOR = False 
 

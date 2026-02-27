@@ -7,17 +7,17 @@ from blog.models import Post
 
 # Create your views here.
 def home(request):
-    return render(request,'home/home.html')
+    return render(request,'home/home.html') 
 
 def about(request):
     messages.success(request,"this is about")   
     return render(request,'home/about.html')    
-
+ 
 def contact(request):
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
-        phone = request.POST.get('phone', '')  
+        phone = request.POST.get('phone', '')   
         content = request.POST.get('content')
         
         if len(name) < 2 or len(email) < 3 or len(content) < 4 or (phone and len(phone) < 10):
@@ -71,7 +71,6 @@ def handleSignup(request):
         myuser.save()
         messages.success(request,"your account has been successfully created")
         return redirect('home')
-    
     else:
         return HttpResponse('handleSignup') 
     
@@ -80,7 +79,7 @@ def handleLogin(request):
         loginusername = request.POST['loginusername']
         loginpassword = request.POST['loginpassword']
         
-        user = authenticate(username=loginusername , password=loginpassword)
+        user = authenticate(username=loginusername , password=loginpassword) 
         
         if user is not None:
             login(request,user)
@@ -89,10 +88,38 @@ def handleLogin(request):
         else:
             messages.error(request,"Invalid credentials,PLease try again")
             return redirect('home')
-                
     return HttpResponse('handleLogin')
 
 def handleLogout(request):
     logout(request)
     messages.success(request,"Successfully Logged out")
     return redirect('home') 
+
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+
+def changepassword(request):
+    if request.method == 'POST': 
+        username = request.POST.get('username') 
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if not username or not new_password or not confirm_password:
+            messages.error(request, "All fields are required")
+            return redirect('home')  
+        if new_password != confirm_password:
+            messages.error(request, "Passwords do not match")
+            return redirect('home')
+                    
+        try:
+            user = User.objects.get(username=username)  
+        except User.DoesNotExist:
+            messages.error(request, "User does not exist")
+            return redirect('home')
+
+        user.set_password(new_password)
+        user.save()
+        messages.success(request, "Password has been reset successfully")
+        return redirect('home')
+    return redirect('home')

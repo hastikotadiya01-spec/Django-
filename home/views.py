@@ -3,6 +3,8 @@ from django.contrib import messages
 from .models import Contact
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User 
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from blog.models import Post
 
 # Create your views here.
@@ -19,7 +21,7 @@ def contact(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone', '')   
         content = request.POST.get('content')
-        
+
         if len(name) < 2 or len(email) < 3 or len(content) < 4 or (phone and len(phone) < 10):
             messages.error(request, "Please fill the form correctly")
             return redirect('contact')  
@@ -82,7 +84,7 @@ def handleLogin(request):
         user = authenticate(username=loginusername , password=loginpassword) 
         
         if user is not None:
-            login(request,user)
+            login(request,user) 
             messages.success(request,"Successfully Logged in")
             return redirect('home')
         else:
@@ -95,31 +97,23 @@ def handleLogout(request):
     messages.success(request,"Successfully Logged out")
     return redirect('home') 
 
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.contrib.auth.models import User
-
+@login_required 
 def changepassword(request):
     if request.method == 'POST': 
-        username = request.POST.get('username') 
         new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-
-        if not username or not new_password or not confirm_password:
-            messages.error(request, "All fields are required")
-            return redirect('home')  
+        confirm_password = request.POST.get('confirm_password') 
+        user = request.user      
+        
         if new_password != confirm_password:
-            messages.error(request, "Passwords do not match")
+            messages.error(request,"password do not match")
             return redirect('home')
-                    
-        try:
-            user = User.objects.get(username=username)  
-        except User.DoesNotExist:
-            messages.error(request, "User does not exist")
-            return redirect('home')
-
+        
         user.set_password(new_password)
         user.save()
-        messages.success(request, "Password has been reset successfully")
+        
+        update_session_auth_hash(request,user)
+        
+        messages.success(request,"Your password has been successfully changed")
         return redirect('home')
-    return redirect('home')
+
+    return redirect('home')                 

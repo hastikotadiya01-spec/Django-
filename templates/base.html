@@ -34,7 +34,7 @@
             <a class="nav-link" href="/contact">Contact</a>
           </li>
         </ul>
-        <div class="m1-auto form-inline">
+        <div class="ml-auto form-inline">
         <form method="get" action="/search/" class="my-2 my-lg-0 mx-3">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
           <button class="btn btn-outline-success m-2 my-sm-0" type="submit">Search</button>
@@ -48,6 +48,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
                 <a class="dropdown-item" href="logout/">Logout</a> 
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#changepasswordmodal">Change Password</a>
               </div> 
             </li>
           </ul>
@@ -58,20 +59,24 @@
       </div>
     </nav>
 
-    <!-- Change Password Modal -->
-{% if user.is_authenticated %}
-<div class="modal fade" id="changepasswordmodal" tabindex="-1" role="dialog" aria-labelledby="changepasswordmodal" aria-hidden="true">  
+<!-- Change Password Modal --> 
+{% if user.is_authenticated %}  
+ <div class="modal fade" id="changepasswordmodal" tabindex="-1" role="dialog" aria-labelledby="changepasswordmodaltitle" aria-hidden="true">
   <div class="modal-dialog" role="document"> 
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="changepasswordmodaltitle">Change Password</h5> 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
           <span aria-hidden="true">&times;</span>
         </button> 
       </div>  
-      <div class="modal-body">    
+      <div class="modal-body">     
         <form action="/changepassword/" method="post"> 
-          {% csrf_token %}     
+          {% csrf_token %}    
+           <div class="form-group">
+                <label for="current_password">Current Password</label> 
+                <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Enter current password" required>
+              </div>
           <div class="form-group">
             <label for="new_password1">New Password</label> 
             <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter new password" required> 
@@ -90,9 +95,9 @@
 
 {% endif %}
 <div class="container my-3" >
-    <!-- Messages --> 
+    <!-- Messages -->  
     {% if messages %}
-    {% for message in messages %}
+    {% for message in messages %} 
     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
       {{ message }}
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -100,9 +105,7 @@
       </button>
     </div>
   {% endfor %}
-{% endif %}
-
-    
+{% endif %} 
 
     <!-- Signup Modal -->
     <div class="modal fade" id="signupmodel" tabindex="-1" role="dialog" aria-labelledby="signupmodel" aria-hidden="true">
@@ -170,14 +173,16 @@
                 <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter your password" required>
               </div>
               {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
-          <div class="modal-footer"></div>
+              <div class="text-center"> 
+              <button type="submit" class="btn btn-primary">Submit</button> 
+              </div>
+            </form> 
+            </div>
+          <div class="modal-footer"></div> 
         </div>  
       </div>
     </div>
-
+  
     {% block body %}{% endblock body %}
 
     <!-- Optional JavaScript -->

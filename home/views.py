@@ -1,51 +1,55 @@
-from django.shortcuts import render,redirect,HttpResponse
-from django.contrib import messages 
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib import messages
 from .models import Contact
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User 
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from blog.models import Post
 
-# Create your views here.
+# Home page
 def home(request):
-    return render(request,'home/home.html') 
+    return render(request, 'home/home.html')
 
+# About page
 def about(request):
-    messages.success(request,"this is about")   
-    return render(request,'home/about.html')    
- 
+    messages.success(request, "This is about page")
+    return render(request, 'home/about.html')
+
+# Contact page
 def contact(request):
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
-        phone = request.POST.get('phone', '')   
+        phone = request.POST.get('phone', '')
         content = request.POST.get('content')
 
         if len(name) < 2 or len(email) < 3 or len(content) < 4 or (phone and len(phone) < 10):
             messages.error(request, "Please fill the form correctly")
-            return redirect('contact')  
+            return redirect('contact')
         else:
             contact = Contact(name=name, email=email, phone=phone, content=content)
             contact.save()
             messages.success(request, "Your message has been successfully sent")
-            return redirect('contact')      
-
+            return redirect('contact')
     return render(request, 'home/contact.html')
 
+# Search
 def search(request):
-    query = request.GET.get('query',' ') 
-    if len(query)>78: 
+    query = request.GET.get('query', '')
+    if len(query) > 78:
         allPosts = Post.objects.none()
     else:
         allPostsTitle = Post.objects.filter(title__icontains=query)
-        allPostsContent = Post.objects.filter(content__icontains=query) 
+        allPostsContent = Post.objects.filter(content__icontains=query)
         allPosts = allPostsTitle.union(allPostsContent)
-    if allPosts.count() == 0:
-        messages.error(request,"No search result found . Please refine your query")
-    params ={'allPosts' : allPosts,'query' : query}
-    return render(request,'home/search.html',params) 
 
+    if allPosts.count() == 0:
+        messages.error(request, "No search results found. Please refine your query")
+
+    params = {'allPosts': allPosts, 'query': query}
+    return render(request, 'home/search.html', params)
+
+# Signup
 def handleSignup(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -54,66 +58,65 @@ def handleSignup(request):
         email = request.POST['email']
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
-        
-        if len(username)>10:
-            messages.error(request,"Username must be under 10 character")
-            return redirect('home') 
-        
+
+        if len(username) > 10:
+            messages.error(request, "Username must be under 10 characters")
+            return redirect('home')
+
         if not username.isalnum():
-            messages.error(request,"Username should only contains letters")
+            messages.error(request, "Username should only contain letters and numbers")
             return redirect('home')
-        
-        if pass1 != pass2 :
-            messages.error(request,"password do not match")
+
+        if pass1 != pass2:
+            messages.error(request, "Passwords do not match")
             return redirect('home')
-        
-        myuser = User.objects.create_user(username,email,pass1)
-        myuser.first_name = fname 
-        myuser.last_name = lname 
+
+        myuser = User.objects.create_user(username, email, pass1)
+        myuser.first_name = fname
+        myuser.last_name = lname
         myuser.save()
-        messages.success(request,"your account has been successfully created")
+        messages.success(request, "Your account has been successfully created")
         return redirect('home')
     else:
-        return HttpResponse('handleSignup') 
-    
+        return HttpResponse('handleSignup')
+
+# Login
 def handleLogin(request):
     if request.method == 'POST':
         loginusername = request.POST['loginusername']
         loginpassword = request.POST['loginpassword']
-        
-        user = authenticate(username=loginusername , password=loginpassword) 
-        
+        user = authenticate(username=loginusername, password=loginpassword)
+
         if user is not None:
-            login(request,user) 
-            messages.success(request,"Successfully Logged in")
+            login(request, user)
+            messages.success(request, "Successfully Logged in")
             return redirect('home')
         else:
-            messages.error(request,"Invalid credentials,PLease try again")
+            messages.error(request, "Invalid credentials, please try again")
             return redirect('home')
     return HttpResponse('handleLogin')
 
 def handleLogout(request):
     logout(request)
-    messages.success(request,"Successfully Logged out")
-    return redirect('home') 
+    messages.success(request, "Successfully Logged out")
+    return redirect('home')
 
 @login_required 
 def changepassword(request):
-    if request.method == 'POST': 
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password') 
-        user = request.user      
-        
-        if new_password != confirm_password:
-            messages.error(request,"password do not match")
+        user = request.user     
+        if not user.check_password(current_password):  
+            messages.error(request, "Current password is incorrect")    
             return redirect('home')
-        
-        user.set_password(new_password)
-        user.save()
-        
-        update_session_auth_hash(request,user)
-        
-        messages.success(request,"Your password has been successfully changed")
-        return redirect('home')
-
-    return redirect('home')                 
+        if new_password != confirm_password:
+            messages.error(request, "New passwords do not match") 
+            return redirect('home') 
+        user.set_password(new_password)  
+        user.save() 
+        update_session_auth_hash(request, user)  
+        messages.success(request, "Your password has been successfully changed")
+        return redirect('home') 
+    return redirect('home') 
